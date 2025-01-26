@@ -542,6 +542,10 @@ input[type="url"] {
 }
 
 @media (max-width: 768px) {
+    .welcome-text {
+        display: none;
+    }
+    
     .nav-left a:not(.logo) {
         display: none;
     }
