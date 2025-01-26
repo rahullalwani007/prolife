@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Voice Assistant</title>
+    <link rel="stylesheet" href="debt-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .voice-assistant-container {
+            min-height: 100vh;
+            background: #1a1c24;
+            display: flex;
+            color: white;
+            padding: 20px;
+        }
+
+        .assistant-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .assistant-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .assistant-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #2962ff, #2979ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .assistant-header p {
+            color: #8b8d97;
+            font-size: 1.1em;
+        }
+
+        .chat-container {
+            flex: 1;
+            min-height: 500px;
+            background: #212332;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .voice-assistant-container {
+                padding: 10px;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a1c24;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 300px;
+            color: white;
+        }
+
+        .settings-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #2d3044;
+            border-radius: 4px;
+            background: #212332;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .help-text a {
+            color: #2962ff;
+            text-decoration: none;
+        }
+
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            background: #2962ff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #1e4bd8;
+        }
+
+        .voice-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(26, 28, 36, 0.9);
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .voice-button, .stop-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .voice-button {
+            background: #2962ff;
+        }
+
+        .stop-button {
+            background: #dc3545;
+        }
+
+        .voice-button:hover, .stop-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .voice-button.listening {
+            animation: pulse 1.5s infinite;
+            background: #28a745;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .voice-button i, .stop-button i {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="voice-assistant-container">
+        <div class="assistant-main">
+            <div class="voice-section active-section" id="voice-section">
+                <div class="assistant-header">
+                    <h1>Finance Voice Assistant</h1>
+                    <p>Ask me anything about your finances</p>
+                </div>
+                <div id="voice-chat-container" class="chat-container">
+                    <div class="voice-controls">
+                        <button class="voice-button">
+                            <i class="fas fa-microphone"></i>
+                            <span>Click to speak</span>
+                        </button>
+                        <button class="stop-button" style="display: none;">
+                            <i class="fas fa-stop"></i>
+                            <span>Stop AI</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="groq-api-key">Groq API Key:</label>
+                    <input type="password" id="groq-api-key" placeholder="Enter your Groq API key">
+                    <button id="save-api-key" class="btn">Save</button>
+                </div>
+                <p class="help-text">Get your API key from <a href="https://console.groq.com" target="_blank">Groq Console</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="voice-chat.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const voiceChatUI = new VoiceChatUI(document.getElementById('voice-chat-container'));
+            
+            // Settings modal functionality
+            const settingsModal = document.getElementById('settings-modal');
+            const apiKeyInput = document.getElementById('groq-api-key');
+            const saveButton = document.getElementById('save-api-key');
+
+            // Show settings modal if no API key is set
+            if (!localStorage.getItem('GROQ_API_KEY')) {
+                settingsModal.style.display = 'block';
+            }
+
+            saveButton.addEventListener('click', () => {
+                const apiKey = apiKeyInput.value.trim();
+                if (apiKey) {
+                    localStorage.setItem('GROQ_API_KEY', apiKey);
+                    settingsModal.style.display = 'none';
+                    location.reload(); // Reload to initialize with new API key
+                }
+            });
+        });
+    </script>
+</body>
+</html>

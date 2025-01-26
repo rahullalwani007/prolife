@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceAI - AI Finance Management</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Hero Section Styles */
+        .hero-section {
+            background: linear-gradient(135deg, #1367c6 0%, #aa05eb 100%);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            color: white;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 span {
+            color: #2962ff;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #a8b2d1;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: #2962ff;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(41, 98, 255, 0.2);
+        }
+
+        .phone-mockup {
+            position: relative;
+            z-index: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: perspective(1000px) rotateY(-5deg) translateY(0px);
+            }
+            50% {
+                transform: perspective(1000px) rotateY(-2deg) translateY(-10px);
+            }
+            100% {
+                transform: perspective(1000px) rotateY(-5deg) translateY(0px);
+            }
+        }
+
+        .phone-frame {
+            background: #6121aa;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .phone-screen {
+            background: #1a1c24;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9/19.5;
+        }
+
+        .phone-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-header {
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .phone-body {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-bubble {
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 80%;
+            color: white;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .user-bubble {
+            background: #2962ff;
+            align-self: flex-end;
+        }
+
+        .ai-bubble {
+            background: #2d3044;
+            align-self: flex-start;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .stars {
+            color: #ffd700;
+        }
+
+        .rating-text {
+            color: #a8b2d1;
+            font-size: 0.9rem;
+        }
+
+        .features-preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .feature-pill {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .preview-image {
+            transition: all 0.3s ease;
+        }
+
+        .preview-image.fade {
+            opacity: 0;
+        }
+
+        .control-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: inherit;
+            transition: transform 0.3s ease;
+        }
+
+        .control-btn:active::after {
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            min-width: 200px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            top: 100%;
+            margin-top: 0.5rem;
+            z-index: 1000;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .white-section {
+            background-color: #fff;
+            padding: 4rem 2rem;
+        }
+
+        .gradient-section {
+            background: linear-gradient(135deg, #1367c6 0%, #aa05eb 100%);
+            padding: 4rem 2rem;
+        }
+
+        .testimonial-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-content {
+            margin-bottom: 20px;
+        }
+
+        .testimonial-content i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .why-choose-image video {
+    width: 500px; /* Increase to desired width */
+    height: 500px; /* Increase to desired height */
+    max-height: 100%; /* Ensure it doesn't exceed the container height */
+    border-radius: 4px; /* Optional: Add rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 2, 0, 0.2); /* Optional: Add shadow for depth */
+    object-fit: cover; /* Crop the video to fill the container */
+}
+
+.video-container {
+    width: 200px; /* Set to desired width */
+    height: 200px; /* Set to desired height */
+    overflow: hidden; /* Hide overflow */
+    position: relative; /* Positioning context for absolute children */
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="#" class="logo">FinanceAI</a>
+            <a href="#features">Features</a>
+            <div class="dropdown">
+                <a href="#" class="dropdown-btn">AI Services <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="debt-dashboard.html">
+                        <i class="fas fa-chart-line"></i>
+                        Debt Dashboard
+                    </a>
+                    <a href="subscription.html">
+                        <i class="fas fa-receipt"></i>
+                        Subscription Management
+                    </a>
+                    <a href="finance-tracker.html">
+                        <i class="fas fa-wallet"></i>
+                        Finance Tracker
+                    </a>
+                </div>
+            </div>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+        <div class="nav-right">
+            <span class="welcome-text">Transform Your Finances</span>
+            <div class="auth-dropdown">
+                <a href="#" class="pricing-btn dropdown-trigger">Get Started</a>
+                <div class="auth-dropdown-content">
+                    <a href="login.html" class="auth-option">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </a>
+                    <a href="signup.html" class="auth-option">
+                        <i class="fas fa-user-plus"></i>
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>AI-Powered Finance Management</h1>
+                <p class="subtitle">Transform your financial journey with our AI-powered tools. Track expenses, manage subscriptions, and achieve your financial goals with intelligent automation.</p>
+                
+                <div class="cta-section">
+                    <button class="try-btn">Start Managing Now</button>
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5 (1,500+ reviews)</span>
+                        </div>
+                    </div>
+                    <p class="trial-text">14-days free trial • No credit card required</p>
+                </div>
+            </div>
+
+            <div class="phone-mockup">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="phone-content">
+                            <div class="phone-header">
+                                <h3>Finance AI Management</h3>
+                            </div>
+                            <div class="phone-body">
+                                <img src="ai.png" alt="Finance Dashboard Preview" class="preview-image" id="previewImage">
+                                <div class="editor-controls">
+                                    <div class="control-buttons">
+                                        <button class="control-btn active" id="aiButton" data-image="ai.png" onclick="window.location.href='voice-assistant.html'">
+                                            <i class="fas fa-robot"></i>
+                                            AI
+                                        </button>
+                                        <button class="control-btn" id="humanButton" data-image="human.jpg" onclick="window.location.href='https://calendly.com/rahullalwani305'">
+                                            <i class="fas fa-user"></i>
+                                            Expert
+                                        </button>
+                                        <button class="control-btn" id="planButton" data-image="plan.jpeg" onclick="window.location.href='plan.html'">
+                                            <i class="fas fa-tasks"></i>
+                                            Plan
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="features" class="offers-section white-section">
+        <div class="section-container">
+            <h2 class="section-title" style="font-size: 2em; color: #333; text-align: center; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; padding-bottom: 20px;">Advanced AI Services</h2> 
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <img src="DB.jpg" alt="Debt Optimization" class="feature-image">
+                    <div class="offer-content">
+                        <h3>AI Expense Analysis</h3>
+                        <p>Advanced AI-powered tools for expense tracking, categorization, and intelligent insights to help you make smarter financial decisions.</p>
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <img src="Sub.jpg" alt="Subscription Management" class="feature-image">
+                    <div class="offer-content">
+                        <h3>Smart Subscription Manager</h3>
+                        <p>Track and optimize your subscriptions with AI. Get alerts for upcoming payments, identify unused subscriptions, and find better deals automatically.</p>
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <img src="Free.jpg" alt="Financial Freedom" class="feature-image">
+                    <div class="offer-content">
+                        <h3>Debt Optimization</h3>
+                        <p>AI-generated debt repayment strategies, personalized to your financial situation. Optimize interest payments and achieve freedom faster.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials-section gradient-section">
+        <div class="section-container">
+            <h2 class="section-title">What Our Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"The AI-powered insights have completely transformed how I manage my finances. I've saved significantly and have better control over my spending."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Saved 30% on monthly expenses</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left"></i>
+                        <p>"The subscription management feature helped me identify and cancel unused subscriptions. The debt optimization advice is invaluable."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <p>Achieved debt-free in 2 years</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-choose-us" class="why-choose-section white-section">
+        <div class="section-container">
+            <div class="why-choose-content">
+                <div class="why-choose-text">
+                    <h2>Why Choose FinanceAI?</h2>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-brain"></i>
+                            <h3>AI-Powered Insights</h3>
+                            <p>Our advanced AI analyzes your spending patterns and provides personalized recommendations.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Bank-Grade Security</h3>
+                            <p>Your financial data is protected with enterprise-level encryption and security measures.</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Real-Time Tracking</h3>
+                            <p>Monitor your finances in real-time with automated expense tracking and categorization.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="why-choose-image">
+                    <video src="Mas.mp4" autoplay loop muted playsinline></video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="white-section">
+        <div class="section-container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Our Location</h3>
+                    <p>123 Finance Street<br>Silicon Valley, CA 94025</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Phone Number</h3>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Address</h3>
+                    <p>contact@financeai.com</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Work Hours</h3>
+                    <p>Monday - Friday<br>9:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <chat-bot platform_id="6a52cb3f-1fcd-4365-875f-a9d224922e33" user_id="a69787db-041d-4bc0-b5c3-0302c62f45e4" chatbot_id="a3d4feec-8372-43af-8b27-e42251c8fbb2"><a href="https://www.chatsimple.ai/?utm_source=widget&utm_medium=referral">[chatbot]</a></chat-bot><script src="https://chatsimple-widget.s3.us-east-2.amazonaws.com/chat-bot-loader.js" defer></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

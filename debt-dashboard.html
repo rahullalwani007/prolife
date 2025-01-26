@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Settlement Dashboard</title>
+    <link rel="stylesheet" href="debt-dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Debt Dashboard</h2>
+            <nav>
+                <a href="#overview" class="active"><i class="fas fa-home"></i> Overview</a>
+                <a href="#income"><i class="fas fa-wallet"></i> Income</a>
+                <a href="#emi"><i class="fas fa-money-bill-wave"></i> EMIs</a>
+                <a href="#history"><i class="fas fa-history"></i> History</a>
+                <a href="#report"><i class="fas fa-file-invoice"></i> Report</a>
+                <a href="#Delete"><i class="fas fa-trash"></i> Reset Data</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header Stats -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-money-bill-alt"></i></div>
+                    <div class="stat-info">
+                        <h3>Total Debt</h3>
+                        <p class="amount">$<span id="totalDebt">0</span></p>
+                    </div>
+                </div>
+                <div class="stat-card clickable" id="incomeCard">
+                    <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-info">
+                        <h3>Monthly Income</h3>
+                        <p class="amount">$<span id="monthlyIncome">0</span></p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                    <div class="stat-info">
+                        <h3>Debt to Income</h3>
+                        <p><span id="debtToIncome">0</span>%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- EMI Timeline Chart -->
+                <div class="chart-card large" id="historySection">
+                    <h3>EMI Payment Timeline</h3>
+                    <canvas id="emiTimelineChart"></canvas>
+                </div>
+
+                <!-- Debt Distribution -->
+                <div class="chart-card" id="emiSection">
+                    <h3>Debt Distribution</h3>
+                    <canvas id="debtDistributionChart"></canvas>
+                </div>
+
+                <!-- Payment Progress -->
+                <div class="chart-card">
+                    <h3>Payment Progress</h3>
+                    <canvas id="paymentProgressChart"></canvas>
+                </div>
+
+                <!-- EMI Calendar -->
+                <div class="chart-card">
+                    <h3>EMI Calendar</h3>
+                    <div class="emi-calendar" id="emiCalendar"></div>
+                </div>
+            </div>
+
+            <!-- Report Section -->
+            <div id="reportSection" class="report-section hidden">
+                <div class="report-content">
+                    <h2>Debt Analysis Report</h2>
+                    <div id="reportSummary"></div>
+                    <button id="expertAdviceBtn" class="expert-advice-btn">
+                        <i class="fas fa-user-tie"></i> Get Expert Advice
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add EMI Button -->
+            <button id="addEMIBtn" class="add-emi-btn">
+                <i class="fas fa-plus"></i> Add New EMI
+            </button>
+
+            <!-- Generate Report Button -->
+            <button id="generateReportBtn" class="generate-report-btn">
+                <i class="fas fa-file-alt"></i> Generate Report
+            </button>
+
+            <!-- Reset Data Section -->
+            <div class="reset-section">
+                <h3>Reset Your Data</h3>
+                <button id="resetDataBtn" class="reset-data-btn">
+                    <i class="fas fa-trash"></i> Reset Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add EMI Modal -->
+    <div id="emiModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Add New EMI</h2>
+            <form id="emiForm">
+                <div class="form-group">
+                    <label for="loanType">Loan Type</label>
+                    <select id="loanType" required>
+                        <option value="">Select Loan Type</option>
+                        <option value="Home">Home Loan</option>
+                        <option value="Car">Car Loan</option>
+                        <option value="Personal">Personal Loan</option>
+                        <option value="Education">Education Loan</option>
+                        <option value="Credit">Credit Card</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount ($)</label>
+                    <input type="number" id="loanAmount" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="interestRate">Interest Rate (%)</label>
+                    <input type="number" id="interestRate" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="tenure">Tenure (months)</label>
+                    <input type="number" id="tenure" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" required>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Add EMI</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Income Modal -->
+    <div id="incomeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Update Monthly Income</h2>
+            <form id="incomeForm">
+                <div class="form-group">
+                    <label for="newIncome">Monthly Income ($)</label>
+                    <input type="number" id="newIncome" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="incomeSource">Income Source</label>
+                    <select id="incomeSource" required>
+                        <option value="Salary">Salary</option>
+                        <option value="Business">Business</option>
+                        <option value="Freelance">Freelance</option>
+                        <option value="Investments">Investments</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Update Income</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Confirmation Modal -->
+    <div id="resetConfirmationModal" class="modal reset-modal">
+        <div class="modal-content reset-modal-content">
+            <h2>Do you want to delete your data permanently?</h2>
+            <div class="button-group">
+                <button id="cancelResetBtn" class="cancel-btn">No</button>
+                <button id="confirmResetBtn" class="confirm-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="debt-dashboard.js"></script>
+</body>
+</html>

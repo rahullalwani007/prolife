@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #00e5ff 0%, #b400ff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #00c6ff 0%, #aa05eb 100%);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .input-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        outline: none;
+        resize: vertical; /* Allows vertical resizing */
+        font-family: 'Poppins', sans-serif;
+    }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Financial Plan</h1>
+        <form id="financialPlanForm">
+            <div class="input-group">
+                <label for="income">Monthly Income:</label>
+                <input type="number" id="income" name="income" required>
+            </div>
+            <div class="input-group">
+                <label for="expenses">Monthly Expenses:</label>
+                <input type="number" id="expenses" name="expenses" required>
+            </div>
+            <div class="input-group">
+                <label for="savings">Savings Goal:</label>
+                <input type="number" id="savings" name="savings" required>
+            </div>
+            <div class="input-group">
+                <label for="problems">Problem with Money:</label>
+                <textarea id="problems" name="problems" rows="4" placeholder="Describe any financial issues..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('financialPlanForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+    
+            // Collect form data
+            const income = document.getElementById('income').value;
+            const expenses = document.getElementById('expenses').value;
+            const savings = document.getElementById('savings').value;
+            const problems = document.getElementById('problems').value;
+    
+            // Create data object
+            const data = {
+                income: income,
+                expenses: expenses,
+                savings: savings,
+                problems: problems
+            };
+    
+            // Send data to webhook
+            fetch('https://hook.eu2.make.com/0w2k748zns84im03kgadmn80rym5dkid', { // Replace with your webhook URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Check your email for your financial freedom!');
+                    this.reset(); // Reset form fields
+                } else {
+                    alert('There was an issue submitting your form. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your form. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

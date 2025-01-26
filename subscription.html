@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Management - FinanceAI</title>
+    <link rel="stylesheet" href="subscription.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="dashboard.html" class="logo">FinanceAI</a>
+            <a href="dashboard.html#offers">What We Offer</a>
+            <a href="dashboard.html#testimonials">Testimonials</a>
+            <a href="dashboard.html#why-choose">Why Choose Us</a>
+        </div>
+        <div class="nav-right">
+            <span class="welcome-text">Welcome, <span id="userName"></span></span>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="subscription-container">
+        <div class="subscription-header">
+            <h1>Subscription Management</h1>
+            <div class="header-actions">
+                <button class="calculate-btn" id="calculateExpenseBtn">
+                    <i class="fas fa-calculator"></i> Calculate Expenses
+                </button>
+                <button class="add-subscription-btn" id="addSubscriptionBtn">
+                    <i class="fas fa-plus"></i> Add New Subscription
+                </button>
+            </div>
+        </div>
+
+        <!-- Add Subscription Modal -->
+        <div class="modal" id="subscriptionModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Subscription</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <form id="subscriptionForm" class="subscription-form">
+                    <div class="form-group">
+                        <label for="subscriptionName">Subscription Name</label>
+                        <input type="text" id="subscriptionName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscriptionReason">Reason for Subscription</label>
+                        <textarea id="subscriptionReason" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscriptionAmount">Monthly Amount</label>
+                        <input type="number" id="subscriptionAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscriptionLink">Subscription Management Link</label>
+                        <input type="url" id="subscriptionLink" placeholder="https://www.netflix.com/account" required>
+                        <small class="form-hint">Enter the link where you can manage/cancel this subscription</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="subscriptionLogo">Upload Logo</label>
+                        <div class="logo-upload">
+                            <input type="file" id="subscriptionLogo" accept="image/*">
+                            <div class="upload-placeholder">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Click to upload logo</span>
+                            </div>
+                            <img id="logoPreview" class="hidden">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">Add Subscription</button>
+                        <button type="button" class="cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Expense Calculator Modal -->
+        <div class="modal" id="expenseCalculatorModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Expense Calculator</h2>
+                    <button class="close-btn">&times;</button>
+                </div>
+                <div class="calculator-content" style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+                    <div class="form-group">
+                        <label for="totalIncome">Your Monthly Income</label>
+                        <input type="number" id="totalIncome" placeholder="Enter your monthly income" required>
+                    </div>
+                    <div class="expense-summary">
+                        <div class="summary-item">
+                            <h3>Total Subscriptions</h3>
+                            <p id="totalSubscriptions">0</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Active Subscriptions Cost</h3>
+                            <p id="activeSubscriptionsCost">₹0</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Remaining Balance</h3>
+                            <p id="remainingBalance">₹0</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Expense Percentage</h3>
+                            <p id="expensePercentage">0%</p>
+                        </div>
+                    </div>
+                    <div class="expense-chart">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                    <div class="expense-recommendation" id="expenseRecommendation">
+                        <!-- Recommendations will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscriptions Grid -->
+        <div class="subscriptions-grid" id="subscriptionsGrid">
+            <!-- Subscription cards will be added here dynamically -->
+        </div>
+
+        <!-- Subscription Card Template -->
+        <template id="subscriptionTemplate">
+            <div class="subscription-card">
+                <div class="subscription-logo">
+                    <img src="" alt="Subscription Logo">
+                </div>
+                <div class="subscription-details">
+                    <h3 class="subscription-name"></h3>
+                    <p class="subscription-reason"></p>
+                    <p class="subscription-amount"></p>
+                    <div class="subscription-actions">
+                        <button class="status-toggle active" data-status="active">Active</button>
+                        <button class="status-toggle inactive" data-status="inactive">Inactive</button>
+                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <script src="subscription.js"></script>
+</body>
+</html>
