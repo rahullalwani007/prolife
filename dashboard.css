@@ -99,12 +99,14 @@ body {
     font-weight: 700;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    animation: textColorChange 15s infinite;
+    color: white; 
     text-shadow: 2px 2px 4px rgba(0, 255, 255, 0.2);
-    transition: text-shadow 0.3s ease;
+    transition: text-shadow 0.3s ease, color 0.3s ease; 
+    animation: none; 
 }
 
 .hero-text h1:hover {
+    animation: textColorChange 15s infinite; 
     text-shadow: 
         0 0 10px rgba(0, 255, 255, 0.5),
         0 0 20px rgba(0, 255, 255, 0.3),
@@ -330,9 +332,9 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
-    animation: textColorChange 15s infinite;
-    text-shadow: 2px 2px 4px rgba(0, 255, 255, 0.2);
-    transition: text-shadow 0.3s ease;
+    background: linear-gradient(135deg, #1367c6, #aa05eb);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .logo:hover {
@@ -986,5 +988,28 @@ body {
 
     .phone-frame {
         max-width: 250px;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 600px) {
+    body {
+        font-size: 14px;
+    }
+    .container {
+        padding: 10px;
+    }
+    .header, .footer {
+        text-align: center;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 601px) and (max-width: 900px) {
+    body {
+        font-size: 16px;
+    }
+    .container {
+        padding: 20px;
     }
 }
