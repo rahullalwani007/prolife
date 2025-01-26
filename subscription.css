@@ -588,38 +588,32 @@ input[type="url"] {
     .modal-content {
         width: 95%;
         max-height: 90vh;
+        margin: 20px auto;
         overflow-y: auto;
-        margin: 20px 0;
         padding: 1.5rem;
     }
 
-    .modal.active {
-        align-items: flex-start;
-        padding: 10px;
-    }
-
-    /* Custom scrollbar styles for better UX */
     .modal-content::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
     }
 
     .modal-content::-webkit-scrollbar-track {
         background: #f1f1f1;
-        border-radius: 4px;
+        border-radius: 10px;
     }
 
     .modal-content::-webkit-scrollbar-thumb {
         background: var(--primary-color);
-        border-radius: 4px;
+        border-radius: 10px;
     }
 
     .modal-content::-webkit-scrollbar-thumb:hover {
         background: var(--secondary-color);
     }
 
-    /* Form adjustments for mobile */
     .subscription-form {
         gap: 1rem;
+        padding-bottom: 1rem;
     }
 
     .form-group input,
@@ -631,22 +625,32 @@ input[type="url"] {
     .logo-upload {
         padding: 1.5rem;
     }
+
+    .modal.active {
+        align-items: flex-start;
+    }
 }
-
-
 
 @media (max-width: 480px) {
     .modal-content {
-        padding: 1rem;
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+        margin: 0;
     }
 
-    .subscription-header h1 {
-        font-size: 1.5rem;
+    .subscription-form {
+        gap: 0.8rem;
     }
 
-    .add-subscription-btn {
-        padding: 0.6rem 1.2rem;
+    .form-group input,
+    .form-group textarea {
+        padding: 0.6rem;
         font-size: 0.9rem;
+    }
+
+    .logo-upload {
+        padding: 1rem;
     }
 
     .subscription-container {
