@@ -586,11 +586,14 @@ input[type="url"] {
     }
 
     .modal-content {
-        width: 95%;
-        max-height: 90vh;
-        margin: 20px auto;
+        width: 90%;
+        max-height: 80vh;
+        margin: auto;
         overflow-y: auto;
         padding: 1.5rem;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .modal-content::-webkit-scrollbar {
@@ -627,16 +630,18 @@ input[type="url"] {
     }
 
     .modal.active {
-        align-items: flex-start;
+        align-items: center;
+        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
     .modal-content {
-        width: 100%;
-        height: 100vh;
-        border-radius: 0;
-        margin: 0;
+        width: 85%;
+        max-height: 75vh;
+        border-radius: 15px;
+        margin: auto;
+        padding: 1rem;
     }
 
     .subscription-form {
@@ -657,11 +662,11 @@ input[type="url"] {
         padding: 0 1rem;
     }
     
-    .modal-content {
-        padding: 1rem;
-    }
-    
     .subscription-actions {
         flex-wrap: wrap;
+    }
+
+    .modal-header h2 {
+        font-size: 1.3rem;
     }
 }
