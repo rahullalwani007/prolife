@@ -584,9 +584,71 @@ input[type="url"] {
     .calculator-content {
         padding: 1rem;
     }
+
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 20px 0;
+        padding: 1.5rem;
+    }
+
+    .modal.active {
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    /* Custom scrollbar styles for better UX */
+    .modal-content::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .modal-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .modal-content::-webkit-scrollbar-thumb {
+        background: var(--primary-color);
+        border-radius: 4px;
+    }
+
+    .modal-content::-webkit-scrollbar-thumb:hover {
+        background: var(--secondary-color);
+    }
+
+    /* Form adjustments for mobile */
+    .subscription-form {
+        gap: 1rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.7rem;
+        font-size: 0.95rem;
+    }
+
+    .logo-upload {
+        padding: 1.5rem;
+    }
 }
 
+
+
 @media (max-width: 480px) {
+    .modal-content {
+        padding: 1rem;
+    }
+
+    .subscription-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .add-subscription-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
     .subscription-container {
         padding: 0 1rem;
     }
